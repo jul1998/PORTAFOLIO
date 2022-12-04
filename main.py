@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
 
@@ -6,6 +6,12 @@ app = Flask(__name__)
 def hello_world():
     return render_template("index.html")
 
+@app.route("/download_cv")
+def download():
+    return send_from_directory(
+        directory="static", path="files/Julian_CV.pdf"
+    )
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
+
