@@ -1,13 +1,19 @@
 from flask import Flask, render_template, send_from_directory, redirect
 from forms import MyForm
 from flask_sqlalchemy import SQLAlchemy
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "Any key"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 app.app_context().push()
+
+EMAIL = os.getenv("EMAIL")
+PASSWORD = os.getenv("PASSWORD")
+print(EMAIL, PASSWORD)
 
 class Projects(db.Model):
     __tablename__ = "projects"
