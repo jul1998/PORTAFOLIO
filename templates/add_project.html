@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form method="POST" action="{{url_for('add_new_project')}}">
+     {{ form.hidden_tag() }}
+    {{ form.csrf_token }}
+    {{ form.repo.label }} {{ form.repo(size=20) }}
+    {{ form.img.label }} {{ form.img(size=20) }}
+    {{ form.group.label }} {{ form.group(size=20) }}
+    <input type="submit" value="Go">
+</form>
+
+
+</body>
+</html>
