@@ -1,6 +1,7 @@
-from flask import Flask, render_template, send_from_directory, redirect
+from flask import Flask, render_template, send_from_directory, redirect,request
 from forms import MyForm
 from flask_sqlalchemy import SQLAlchemy
+from email_server import send_email
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -13,7 +14,6 @@ app.app_context().push()
 
 EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("PASSWORD")
-print(EMAIL, PASSWORD)
 
 class Projects(db.Model):
     __tablename__ = "projects"
@@ -50,6 +50,17 @@ def download():
     return send_from_directory(
         directory="static", path="files/Julian_CV.pdf"
     )
+
+@app.route("/email", methods=["GET","POST"])
+def send_email_route():
+    if request.method == "POST":
+        name = request.form.get("userName")
+        email = request.form.get("email")
+        subject = request.form.get("subject")
+        message = request.form.get("message")
+        msg=f"Subject:{subject}\n\nUser name:{name}, User email{email}  {message}"
+        send_email(EMAIL, PASSWORD, "jguevara321@gmail.com", msg)
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
